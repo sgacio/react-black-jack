@@ -42,7 +42,6 @@ const DeckCreation = () => {
     deal(playerHand)
     deal(dealerHand)
     TotalHandValue()
-    pHand()
     dHand()
   }
 
@@ -79,7 +78,6 @@ const DeckCreation = () => {
   const hitMe = () => {
     const Card = deck.shift()
     playerHand.unshift(Card)
-    pHand()
     TotalHandValue()
   }
 
@@ -91,6 +89,21 @@ const DeckCreation = () => {
       return a + c
     })
     setHandWorth(red)
+    if(red === 21){
+      pHand()
+      const element = (
+        <h1>21 Player Win!</h1>
+        )
+        ReactDOM.render(element, document.getElementById('winOrBust'))
+    } else if(red > 21){
+      pHand()
+      const element = (
+        <h1>Bust! House Wins</h1>
+        )
+        ReactDOM.render(element, document.getElementById('winOrBust'))
+    } else{
+      pHand()
+    }
   }
 
   return (
@@ -99,6 +112,7 @@ const DeckCreation = () => {
         <p>
           Player Hand
           <span>Total Hand Value:{handWorth}</span>
+          <span id='winOrBust'></span>
         </p>
         <div id="playerOne"></div>
         <button onClick={() => hitMe()}>Hit Me</button>
