@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { useState, useEffect } from 'react'
+import DealerHand from './DealerHand'
+import PlayerHand from './PlayerHand'
 
 const DeckCreation = () => {
   const [numbers] = useState([
@@ -21,7 +23,6 @@ const DeckCreation = () => {
   const [value] = useState([11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10])
   const [suits] = useState(['Spade', 'Heart', 'Clubs', 'Diamond'])
   const [deck] = useState([])
-  // const [card, setCard] = useState({})
   const [playerHand] = useState([])
   const [dealerHand] = useState([])
 
@@ -41,55 +42,14 @@ const DeckCreation = () => {
 
   const pHand = () => {
     const element = (
-      <div>
-        <div>Card 1</div>
-        <p>
-          Suit of Card:
-          <span>{playerHand[0].suit}</span>
-        </p>
-        <p>
-          Rank of Card:
-          <span>{playerHand[0].rank}</span>
-        </p>
-        <p>
-          Value of Card:
-          <span>{playerHand[0].worth}</span>
-        </p>
-        <div>Card 2</div>
-        <p>
-          Suit of Card:
-          <span>{playerHand[1].suit}</span>
-        </p>
-        <p>
-          Rank of Card:
-          <span>{playerHand[1].rank}</span>
-        </p>
-        <p>
-          Worth of Card:
-          <span>{playerHand[1].worth}</span>
-        </p>
-      </div>
+    <PlayerHand playerHand={playerHand}/>
     )
     ReactDOM.render(element, document.getElementById('playerOne'))
   }
 
   const dHand = () => {
     const element = (
-      <div>
-        <div>Card 1</div>
-        <p>
-          Rank of Card:
-          <span>{dealerHand[0].rank}</span>
-        </p>
-        <p>
-          Suit of Card:
-          <span>{dealerHand[0].suit}</span>
-        </p>
-        <p>
-          Value of Card:
-          <span>{dealerHand[0].worth}</span>
-        </p>
-      </div>
+      <DealerHand dealerHand={dealerHand}/>
     )
     ReactDOM.render(element, document.getElementById('dealerHand'))
   }
@@ -108,7 +68,6 @@ const DeckCreation = () => {
       const Card = deck.shift()
       key.unshift(Card)
     }
-    console.log(deck, 'manipulated')
   }
 
   useEffect(() => {
