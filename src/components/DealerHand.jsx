@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 export class DealerHand extends Component {
     render() {
         return (
-        <div className='card text-center m-sm-2'>
+          <div className='col d-flex justify-content-center'>
+
+        <div className='card text-center m-3 text-white bg-dark w-50'>
             <p className='card-text'>
               Rank of Card:
               <span>{this.props.dealerHand[0].rank}</span>
@@ -17,6 +19,7 @@ export class DealerHand extends Component {
               <span>{this.props.dealerHand[0].worth}</span>
             </p>
         </div>
+          </div>
         );
     }
 }

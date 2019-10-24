@@ -16,3 +16,7 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
 }
+
+.head{
+  margin-top: 4rem;
+}

@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 export class FullDealerHand extends Component {
     render() {
         return (
-        <div className='row'>
+        <div className='row this-one'>
             {this.props.dealerHand.map((v, i) => {
                 return( 
-                <div className='col-sm-6' key={i}>
-                    <div className='card text-center m-sm-2'>
+                <div className='col d-flex justify-content-center' key={i}>
+                    <div className='card text-center m-sm-2 w-50 text-white bg-dark'>
                         <div>
                             <p className='card-text'>
                                 Rank of Card:

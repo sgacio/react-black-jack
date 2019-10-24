@@ -6,8 +6,8 @@ export class PlayerHand extends Component {
         <div className='row'>
             {this.props.playerHand.map((v, i) => {
                 return( 
-                <div className='col-sm-6' key={i}>
-                    <div className='card text-center m-sm-2'>
+                <div className='col d-flex justify-content-center' key={i}>
+                    <div className='card text-center m-3 w-50 text-white bg-dark'>
                         <div>
                             <p className='card-text'>
                                 Rank of Card:

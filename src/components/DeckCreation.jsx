@@ -252,9 +252,9 @@ const DeckCreation = () => {
   }
 
   return (
-    <div>
+    <div className='this-one'>
       <div className='text-center'>
-        <header>
+        <header className="head">
           <h1>  
             Player Hand
           </h1>
