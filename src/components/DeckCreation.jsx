@@ -14,6 +14,7 @@ const DeckCreation = () => {
     '6',
     '7',
     '8',
+    
     '9',
     '10',
     'Jack',
@@ -25,6 +26,11 @@ const DeckCreation = () => {
   const [deck] = useState([])
   const [playerHand] = useState([])
   const [dealerHand] = useState([])
+  const [handWorth, setHandWorth] = useState()
+ 
+  useEffect(() => {
+    createDeck()
+  }, [])
 
   const createDeck = () => {
     suits.map(suit => {
@@ -36,22 +42,9 @@ const DeckCreation = () => {
     shuffleDeck()
     deal(playerHand)
     deal(dealerHand)
+    TotalHandValue()
     pHand()
     dHand()
-  }
-
-  const pHand = () => {
-    const element = (
-    <PlayerHand playerHand={playerHand}/>
-    )
-    ReactDOM.render(element, document.getElementById('playerOne'))
-  }
-
-  const dHand = () => {
-    const element = (
-      <DealerHand dealerHand={dealerHand}/>
-    )
-    ReactDOM.render(element, document.getElementById('dealerHand'))
   }
 
   const shuffleDeck = () => {
@@ -70,15 +63,46 @@ const DeckCreation = () => {
     }
   }
 
-  useEffect(() => {
-    createDeck()
-  }, [])
+  const pHand = () => {
+    const element = (
+    <PlayerHand playerHand={playerHand}/>
+    )
+    ReactDOM.render(element, document.getElementById('playerOne'))
+  }
+
+  const dHand = () => {
+    const element = (
+      <DealerHand dealerHand={dealerHand}/>
+    )
+    ReactDOM.render(element, document.getElementById('dealerHand'))
+  }
+
+  const hitMe = () => {
+    const Card = deck.shift()
+    playerHand.unshift(Card)
+    pHand()
+    TotalHandValue()
+  }
+
+  const TotalHandValue = () => {
+    const v = playerHand.map(p => {
+      return p.worth
+    })
+    const red = v.reduce((a, c) => {
+      return a + c
+    })
+    setHandWorth(red)
+  }
 
   return (
     <div>
       <div>
-        <p>Player Hand</p>
+        <p>
+          Player Hand
+          <span>Total Hand Value:{handWorth}</span>
+        </p>
         <div id="playerOne"></div>
+        <button onClick={() => hitMe()}>Hit Me</button>
       </div>
       <div>
         <p>Dealer Hand</p>

@@ -4,32 +4,23 @@ export class PlayerHand extends Component {
     render() {
         return (
         <div>
-            <div>Card 1</div>
-            <p>
-                Suit of Card:
-                <span>{this.props.playerHand[0].suit}</span>
-            </p>
-            <p>
-                Rank of Card:
-                <span>{this.props.playerHand[0].rank}</span>
-            </p>
-            <p>
-                Value of Card:
-                <span>{this.props.playerHand[0].worth}</span>
-            </p>
-            <div>Card 2</div>
-            <p>
-                Suit of Card:
-                <span>{this.props.playerHand[1].suit}</span>
-            </p>
-            <p>
-                Rank of Card:
-                <span>{this.props.playerHand[1].rank}</span>
-            </p>
-            <p>
-                Worth of Card:
-                <span>{this.props.playerHand[1].worth}</span>
-            </p>
+            {this.props.playerHand.map((v, i) => {
+                return( 
+                <div key={i}>
+                    <p>
+                        Rank of Card:
+                        <span>{v.rank}</span>
+                    </p>
+                    <p>
+                        Suit of Card:
+                        <span>{v.suit}</span>
+                    </p>
+                    <p>
+                        Value of Card:
+                        <span>{v.worth}</span>
+                    </p>
+                </div>
+            )})}
         </div>
         );
     }

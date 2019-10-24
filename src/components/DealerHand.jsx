@@ -4,7 +4,6 @@ export class DealerHand extends Component {
     render() {
         return (
         <div>
-            <div>Card 1</div>
             <p>
               Rank of Card:
               <span>{this.props.dealerHand[0].rank}</span>
