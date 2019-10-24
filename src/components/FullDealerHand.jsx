@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-export class PlayerHand extends Component {
+export class FullDealerHand extends Component {
     render() {
         return (
         <div className='row'>
-            {this.props.playerHand.map((v, i) => {
+            {this.props.dealerHand.map((v, i) => {
                 return( 
                 <div className='col-sm-6' key={i}>
                     <div className='card text-center m-sm-2'>
@@ -25,9 +25,9 @@ export class PlayerHand extends Component {
                     </div>
                 </div>
             )})}
-        </div>
-        );
+            </div>
+            );
+        }
     }
-}
 
-export default PlayerHand;
+export default FullDealerHand;

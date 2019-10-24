@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { useState, useEffect } from 'react'
 import DealerHand from './DealerHand'
 import PlayerHand from './PlayerHand'
+import FullDealerHand from './FullDealerHand'
 
 const DeckCreation = () => {
   const [numbers] = useState([
@@ -92,6 +93,9 @@ const DeckCreation = () => {
     setHandWorth(red)
     if(red === 21){
       pHand()
+      const elementT = (
+        <FullDealerHand dealerHand={dealerHand}/>
+        )
       const element = (
         <div>
           <h1>21 Player Win!</h1>
@@ -99,6 +103,7 @@ const DeckCreation = () => {
         </div>
         )
         ReactDOM.render(element, document.getElementById('winOrBust'))
+          ReactDOM.render(elementT, document.getElementById('dealerHand'))
       } else if(red > 21){
         pHand()
         const element = (
@@ -145,14 +150,16 @@ const DeckCreation = () => {
       if(red > 21){
         const element = (
           <div>
-          <h1>Player Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
+            <FullDealerHand dealerHand={dealerHand}/>
+            <h1>Player Wins!</h1>
+            <button onClick={() => playAgain()}>Play Again?</button>
         </div>
         )
         ReactDOM.render(element, document.getElementById('dealerHand'))
       }if(red === 21){
         const element = (
           <div>
+            <FullDealerHand dealerHand={dealerHand}/>
           <h1>House Wins!</h1>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
@@ -161,6 +168,7 @@ const DeckCreation = () => {
       }else if(red === 16 && red < handWorth){
         const element = (
           <div>
+            <FullDealerHand dealerHand={dealerHand}/>
           <h1>Player Wins!</h1>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
@@ -169,6 +177,7 @@ const DeckCreation = () => {
       }else if(red === 21 && red > handWorth){
         const element = (
           <div>
+            <FullDealerHand dealerHand={dealerHand}/>
           <h1>House Wins!</h1>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
@@ -178,6 +187,7 @@ const DeckCreation = () => {
       else if(red < 16 && red < handWorth){
         const element = (
           <div>
+            <FullDealerHand dealerHand={dealerHand}/>
           <h1>Player Wins!</h1>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
@@ -187,34 +197,38 @@ const DeckCreation = () => {
       else if(red < 16 && red > handWorth){
         const element = (
           <div>
+            <FullDealerHand dealerHand={dealerHand}/>
           <h1>House Wins!</h1>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
         )
         ReactDOM.render(element, document.getElementById('dealerHand'))
       }
-      else if(red > 16 && red < handWorth)
+      else if(red > 16 && red < 21 && red < handWorth)
       {
         const element = (
           <div>
+            <FullDealerHand dealerHand={dealerHand}/>
           <h1>Player Wins!</h1>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
         )
         ReactDOM.render(element, document.getElementById('dealerHand'))
-      }else if(red > 16 && red > handWorth)
+      }else if(red > 16 && red < 21 && red > handWorth)
       {
         const element = (
           <div>
+            <FullDealerHand dealerHand={dealerHand}/>
           <h1>House Wins!</h1>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
         )
         ReactDOM.render(element, document.getElementById('dealerHand'))
-      }else if(red > 16 && red === handWorth)
+      }else if(red > 16 && red < 21 && red === handWorth)
       {
         const element = (
           <div>
+            <FullDealerHand dealerHand={dealerHand}/>
           <h1>Push!</h1>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
@@ -225,6 +239,7 @@ const DeckCreation = () => {
         const element = (
           <div>
           <h1>Push!</h1>
+          <FullDealerHand dealerHand={dealerHand}/>
           <button onClick={() => playAgain()}>Play Again?</button>
         </div>
         )
@@ -238,20 +253,22 @@ const DeckCreation = () => {
 
   return (
     <div>
-      <div>
-        <p>
-          Player Hand
-          <span>Total Hand Value:{handWorth}</span>
+      <div className='text-center'>
+        <header>
+          <h1>  
+            Player Hand
+          </h1>
+          <h1>Total Hand Value:{handWorth}</h1>
           <span id='winOrBust'></span>
-        </p>
+        </header>
         <div id="playerOne"></div>
-        <div>
+        <div className='thing'>
           <button onClick={() => hitMe()}>Hit Me</button>
           <button onClick={() => stay()}>Stay</button>
         </div>
       </div>
-      <div>
-        <p>Dealer Hand</p>
+      <div className='text-center'>
+        <h1>Dealer Hand</h1>
         <div id="dealerHand"></div>
       </div>
     </div>
