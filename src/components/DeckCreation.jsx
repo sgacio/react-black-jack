@@ -108,7 +108,6 @@ const DeckCreation = () => {
       const Card = deck.shift()
       key.unshift(Card)
     }
-    console.log(deck, 'manipulated')
   }
 
   useEffect(() => {
