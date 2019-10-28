@@ -139,6 +139,37 @@ const DeckCreation = () => {
       }
     }
 
+    const displayOne = () => {
+      const element = (
+        <div>
+          <FullDealerHand dealerHand={dealerHand}/>
+          <h1>Player Wins!</h1>
+          <button onClick={() => playAgain()}>Play Again?</button>
+      </div>)
+      ReactDOM.render(element, document.getElementById('dealerHand'))
+    }
+
+    const displayTwo = () => {
+      const element = (
+        <div>
+          <FullDealerHand dealerHand={dealerHand}/>
+          <h1>House Wins!</h1>
+          <button onClick={() => playAgain()}>Play Again?</button>
+      </div>)
+      ReactDOM.render(element, document.getElementById('dealerHand'))
+    }
+
+    const displayThree = () => {
+      const element = (
+        <div>
+          <FullDealerHand dealerHand={dealerHand}/>
+        <h1>Push!</h1>
+        <button onClick={() => playAgain()}>Play Again?</button>
+      </div>
+      )
+      ReactDOM.render(element, document.getElementById('dealerHand'))
+    }
+
     const reEval = () => {
       console.log(dealerHand, "in reEval")
       const v = dealerHand.map(p => {
@@ -148,102 +179,32 @@ const DeckCreation = () => {
         return a + c
       })
       if(red > 21){
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-            <h1>Player Wins!</h1>
-            <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+       displayOne()
       }if(red === 21){
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-          <h1>House Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+        displayTwo()
       }else if(red === 16 && red < handWorth){
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-          <h1>Player Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+        displayOne()
       }else if(red === 21 && red > handWorth){
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-          <h1>House Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+        displayTwo()
       }
       else if(red < 16 && red < handWorth){
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-          <h1>Player Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+        displayOne()
       }
       else if(red < 16 && red > handWorth){
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-          <h1>House Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+       displayTwo()
       }
       else if(red > 16 && red < 21 && red < handWorth)
       {
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-          <h1>Player Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+        displayOne()
       }else if(red > 16 && red < 21 && red > handWorth)
       {
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-          <h1>House Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+       displayTwo()
       }else if(red > 16 && red < 21 && red === handWorth)
       {
-        const element = (
-          <div>
-            <FullDealerHand dealerHand={dealerHand}/>
-          <h1>Push!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+        displayThree()
       }else if(red < 16 && red === handWorth)
       {
-        const element = (
-          <div>
-          <h1>Push!</h1>
-          <FullDealerHand dealerHand={dealerHand}/>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-        )
-        ReactDOM.render(element, document.getElementById('dealerHand'))
+        displayThree()
       }
     }
 
