@@ -11,12 +11,11 @@ body {
   min-height: 100%;
 }
 
-.thing{
+.thing {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
 }
 
-.head{
+.head {
   margin-top: 4rem;
 }

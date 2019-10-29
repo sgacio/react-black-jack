@@ -79,8 +79,10 @@ const DeckCreation = () => {
   const [suits] = useState(['Spade', 'Heart', 'Clubs', 'Diamond'])
   const [preDeck] = useState([])
   const [deck] = useState([])
-  const [playerHand] = useState([])
-  const [dealerHand] = useState([])
+  const [prePHand] = useState([])
+  const [playerHand, setPlayerHand] = useState([])
+  const [preDHand] = useState([])
+  const [dealerHand, setDealerHand] = useState([])
   const [handWorth, setHandWorth] = useState()
 
   useEffect(() => {
@@ -97,10 +99,9 @@ const DeckCreation = () => {
     console.log(preDeck)
     merge()
     shuffleDeck()
-    deal(playerHand)
-    deal(dealerHand)
-    TotalHandValue()
-    dHand()
+    deal(prePHand)
+    deal(preDHand)
+    handOut()
   }
 
   const merge = () => {
@@ -127,199 +128,43 @@ const DeckCreation = () => {
     }
   }
 
-  const pHand = () => {
-    const element = <PlayerHand playerHand={playerHand} />
-    ReactDOM.render(element, document.getElementById('playerOne'))
-  }
-
-  const dHand = () => {
-    const element = <DealerHand dealerHand={dealerHand} />
-    ReactDOM.render(element, document.getElementById('dealerHand'))
-  }
-
-  const hitMe = () => {
-    const Card = deck.shift()
-    playerHand.unshift(Card)
+  const handOut = () => {
+    setPlayerHand(prePHand)
+    setDealerHand(preDHand)
     TotalHandValue()
   }
 
   const TotalHandValue = () => {
-    const v = playerHand.map(p => {
-      return p.worth
+    const v = prePHand.map(p => {
+      return p.item.worth
     })
+    console.log(v, 'v')
     const red = v.reduce((a, c) => {
       return a + c
     })
     setHandWorth(red)
-    if (red === 21) {
-      pHand()
-      const elementT = <FullDealerHand dealerHand={dealerHand} />
-      const element = (
-        <div>
-          <h1>21 Player Win!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('winOrBust'))
-      ReactDOM.render(elementT, document.getElementById('dealerHand'))
-    } else if (red > 21) {
-      pHand()
-      const element = (
-        <div>
-          <h1>Bust! House Wins</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('winOrBust'))
-    } else {
-      pHand()
-    }
   }
 
-  const stay = () => {
-    const v = dealerHand.map(p => {
-      return p.worth
-    })
-    const red = v.reduce((a, c) => {
-      return a + c
-    })
-    console.log(red, 'first time')
-    if (red < 16) {
-      const Card = deck.shift()
-      dealerHand.unshift(Card)
-      reEval()
-    } else if (red === 16) {
-      const Card = deck.shift()
-      dealerHand.unshift(Card)
-      reEval()
-    } else if (red > 16) {
-      reEval()
-    }
-  }
-
-  const reEval = () => {
-    console.log(dealerHand, 'in reEval')
-    const v = dealerHand.map(p => {
-      return p.worth
-    })
-    const red = v.reduce((a, c) => {
-      return a + c
-    })
-    if (red > 21) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>Player Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    }
-    if (red === 21) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>House Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    } else if (red === 16 && red < handWorth) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>Player Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    } else if (red === 21 && red > handWorth) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>House Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    } else if (red < 16 && red < handWorth) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>Player Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    } else if (red < 16 && red > handWorth) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>House Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    } else if (red > 16 && red < 21 && red < handWorth) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>Player Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    } else if (red > 16 && red < 21 && red > handWorth) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>House Wins!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    } else if (red > 16 && red < 21 && red === handWorth) {
-      const element = (
-        <div>
-          <FullDealerHand dealerHand={dealerHand} />
-          <h1>Push!</h1>
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    } else if (red < 16 && red === handWorth) {
-      const element = (
-        <div>
-          <h1>Push!</h1>
-          <FullDealerHand dealerHand={dealerHand} />
-          <button onClick={() => playAgain()}>Play Again?</button>
-        </div>
-      )
-      ReactDOM.render(element, document.getElementById('dealerHand'))
-    }
-  }
-
-  const playAgain = () => {
-    window.location.reload()
-  }
+  // const playAgain = () => {
+  //   window.location.reload()
+  // }
 
   return (
     <div className="this-one">
+      {console.log(playerHand, 'player', dealerHand, 'dealer')}
       <div className="text-center">
         <header className="head">
           <h1>Player Hand</h1>
-          <h1>Total Hand Value:{handWorth}</h1>
-          <span id="winOrBust"></span>
         </header>
-        <div id="playerOne"></div>
-        <div className="thing">
-          <button onClick={() => hitMe()}>Hit Me</button>
-          <button onClick={() => stay()}>Stay</button>
-        </div>
+        <PlayerHand playerHand={playerHand} />
+        <h4 className="text-center">
+          <span>Value of Player Hand: </span>
+          {handWorth}
+        </h4>
       </div>
       <div className="text-center">
         <h1>Dealer Hand</h1>
-        <div id="dealerHand"></div>
+        <FullDealerHand dealerHand={dealerHand} />
       </div>
     </div>
   )
