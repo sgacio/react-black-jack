@@ -137,6 +137,10 @@ const DeckCreation = () => {
   const [preDHand] = useState([])
   const [dealerHand, setDealerHand] = useState([])
   const [handWorth, setHandWorth] = useState()
+  const [evaluatedOne, setEvaluatedOne] = useState(false)
+  const [evaluatedTwo, setEvaluatedTwo] = useState(false)
+  const [evaluatedThree, setEvaluatedThree] = useState(false)
+  const [gameEnd, setGameEnd] = useState(false)
 
   useEffect(() => {
     createDeck()
@@ -149,7 +153,6 @@ const DeckCreation = () => {
         return preDeck.push({ rank, suit, worth })
       })
     })
-    console.log(preDeck)
     merge()
     shuffleDeck()
     deal(prePHand)
@@ -162,7 +165,7 @@ const DeckCreation = () => {
       const card = images[index]
       return deck.push({ item, card })
     })
-    console.log(deck, 'merge')
+    console.log(deck)
   }
 
   const shuffleDeck = () => {
@@ -205,20 +208,86 @@ const DeckCreation = () => {
     const v = prePHand.map(p => {
       return p.item.worth
     })
-    console.log(v, 'v')
     const red = v.reduce((a, c) => {
       return a + c
     })
     setHandWorth(red)
+    if (red === 21) {
+      setEvaluatedOne(true)
+      setGameEnd(true)
+    } else if (red > 21) {
+      setEvaluatedTwo(true)
+      setGameEnd(true)
+    }
   }
 
-  // const playAgain = () => {
-  //   window.location.reload()
-  // }
+  const stay = () => {
+    const v = dealerHand.map(p => {
+      return p.item.worth
+    })
+    const red = v.reduce((a, c) => {
+      return a + c
+    })
+    if (red < 16) {
+      hit(preDHand)
+      setDealerHand(preDHand)
+      reEval()
+    } else if (red === 16) {
+      hit(preDHand)
+      setDealerHand(preDHand)
+      reEval()
+    } else if (red > 16) {
+      reEval()
+    }
+  }
+
+  const reEval = () => {
+    const v = dealerHand.map(p => {
+      return p.item.worth
+    })
+    const red = v.reduce((a, c) => {
+      return a + c
+    })
+    if (red > 21) {
+      setEvaluatedOne(true)
+      setGameEnd(true)
+    }
+    if (red === 21) {
+      setEvaluatedTwo(true)
+      setGameEnd(true)
+    } else if (red === 16 && red < handWorth) {
+      setEvaluatedOne(true)
+      setGameEnd(true)
+    } else if (red === 21 && red > handWorth) {
+      setEvaluatedTwo(true)
+      setGameEnd(true)
+    } else if (red < 16 && red < handWorth) {
+      setEvaluatedOne(true)
+      setGameEnd(true)
+    } else if (red < 16 && red > handWorth) {
+      setEvaluatedTwo(true)
+      setGameEnd(true)
+    } else if (red > 16 && red < 21 && red < handWorth) {
+      setEvaluatedOne(true)
+      setGameEnd(true)
+    } else if (red > 16 && red < 21 && red > handWorth) {
+      setEvaluatedTwo(true)
+      setGameEnd(true)
+    } else if (red > 16 && red < 21 && red === handWorth) {
+      setEvaluatedThree(true)
+      setGameEnd(true)
+    } else if (red < 16 && red === handWorth) {
+      setEvaluatedThree(true)
+      setGameEnd(true)
+    }
+  }
+
+  const playAgain = () => {
+    window.location.reload()
+  }
 
   return (
     <div className="this-one">
-      {console.log(playerHand, 'player', dealerHand, 'dealer')}
       <div className="text-center">
         <header className="head">
           <h1>Player Hand</h1>
@@ -228,14 +297,30 @@ const DeckCreation = () => {
           <span>Value of Player Hand: </span>
           {handWorth}
         </h4>
-        <div>
+        <div className={evaluatedOne === false ? 'hide-one' : ''}>
+          <h3>Player wins</h3>
+          <button onClick={() => playAgain()}>Play again</button>
+        </div>
+        <div className={evaluatedTwo === false ? 'hide-two' : ''}>
+          <h3>Bust! House Wins</h3>
+          <button onClick={() => playAgain()}>Play again</button>
+        </div>
+        <div className={evaluatedThree === false ? 'hide-three' : ''}>
+          <h3>Push!</h3>
+          <button onClick={() => playAgain()}>Play again</button>
+        </div>
+        <div className="thing">
           <button onClick={() => hitMe()}>Hit Me</button>
-          <button>Stay</button>
+          <button onClick={() => stay()}>Stay</button>
         </div>
       </div>
       <div className="text-center">
         <h1>Dealer Hand</h1>
-        <DealerHand dealerHand={dealerHand} />
+        {gameEnd === false ? (
+          <DealerHand dealerHand={dealerHand} />
+        ) : (
+          <FullDealerHand dealerHand={dealerHand} />
+        )}
       </div>
     </div>
   )

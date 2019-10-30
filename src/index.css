@@ -14,8 +14,15 @@ body {
 .thing {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .head {
   margin-top: 4rem;
+}
+
+.hide-one,
+.hide-two,
+.hide-three {
+  display: none;
 }
